@@ -1,0 +1,55 @@
+body {
+  /**https://uigradients.com/#DarkOcean**/
+  background: #373B44;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #4286f4, #373B44);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #4286f4, #373B44); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  /**https://uigradients.com/#DarkOcean**/
+}
+
+body.productos {
+  background: -webkit-linear-gradient(to right, #2C3E50, #1ABC9C);
+  background: linear-gradient(to right, #2C3E50, #1ABC9C);
+}
+
+@import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css');
+/* Estilos para la barra de navegación */
+.navbar-nav {
+  margin-left: auto;
+}
+
+/* Estilos para el botón hamburguesa */
+.navbar-toggler {
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+
+.navbar-toggler-icon {
+  background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="rgba(0, 0, 0, 0.5)" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22" /%3E%3C/svg%3E');
+}
+
+/* Estilos para la barra de navegación en modo colapsado */
+.navbar-collapse {
+  justify-content: flex-end;
+}
+
+/* Estilos para los elementos de navegación en modo colapsado */
+.nav-item {
+  margin-right: 15px;
+}
+
+footer {
+  background-color: #1A1A1A;
+  height: 50%;
+  color: white;
+  padding: 15px;
+}
+
+.main1 {
+  display: flex;
+  margin: 0 auto;
+}
+
+a img:hover {
+  color: #fff;
+}

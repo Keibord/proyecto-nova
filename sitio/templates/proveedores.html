@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}" role="warning">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<body class="proveedores">
+    <br>
+    <h1>Listado de Proveedores</h1>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Direccion</th>
+                <th>Telefono</th>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for proveedor in proveedores %}
+            <tr>
+                <td style="font-weight: bold;">{{ proveedor[0] }}</td>
+                <td style="font-weight: bold;">{{ proveedor[1] }}</td>
+                <td style="font-weight: bold;">{{ proveedor[2] }}</td>
+                <td style="font-weight: bold;">{{ proveedor[3] }}</td>
+                <td style="font-weight: bold;">{{ proveedor[4] }}</td>
+                <td>
+                    <a href="{{ url_for('editar_proveedor', codigo=proveedor[0]) }}" class="btn btn-primary">Editar</a>
+                    <a href="{{ url_for('eliminar_proveedor', codigo=proveedor[0]) }}" class="btn btn-danger" onclick="return confirm('¿Esta seguro de que desea eliminar este proveedor?')">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Boton agregar proveedor -->
+    <a href="{{ url_for('agregar_proveedor') }}" class="btn btn-success">Agregar Proveedor</a>
+
+    <!-- Scripts necesarios para la página -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script>
+        window.setTimeout(function() {
+          $(".alert").fadeTo(300, 0).slideUp(300, function(){
+            $(this).remove(); 
+          });
+        }, 5000);
+    </script>
+
+</body>
+{% endblock %}

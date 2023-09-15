@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<body>
+    <h1>Lista de productos</h1>
+    <div class="form-group mb-4 md-4">
+        <input type="text" id="search-input" class="form-control" placeholder="Buscar productos o codigo por nombre">
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Proveedor</th>
+                <th>Categoría</th>                
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+                <th>Compras</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td style="font-weight: bold;">{{ producto[0] }}</td>
+                <td><img src="{{ producto[5] }}" alt="Imagen del producto" style="width: 50px;"></td>
+                <td style="font-weight: bold;">{{ producto[1] }}</td>
+                <td style="font-weight: bold;">{{ producto[2] }}</td>
+                <td style="font-weight: bold;">{{ producto[3] }}</td>
+                <td style="font-weight: bold;">{{ producto[4] }}</td>
+                <td style="font-weight: bold;">${{ producto[6] }}</td>
+                <td class="d-flex">
+                    <a href="{{ url_for('editar_producto', codigo=producto[0]) }}" class="btn btn-primary mr-2">Editar</a>
+                    <a href="{{ url_for('eliminar_producto', codigo=producto[0]) }}" class="btn btn-danger mr-2" onclick="return confirm('¿Está seguro de que desea eliminar este producto?')">Eliminar</a>
+                </td>
+                <td>
+                    <form class="d-flex" method="POST" action="{{ url_for('agregar_al_carro', Codigo=producto[0]) }}">
+                        <input type="number" name="Cantidad" class="form-control mr-2" value="1" min="1" max="{{ producto[4] }}" style="width: 65px;">
+                        <button type="submit" class="btn btn-success text-nowrap">Al carro</button>
+                    </form>                                                            
+                </td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('agregar_producto') }}" class="btn btn-success">Agregar Producto</a>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function() {
+          $('#search-input').keyup(function() {
+              var searchText = $(this).val().toLowerCase();
+              $('table tbody tr').each(function() {
+                  var currentRow = $(this);
+                  var productName = currentRow.find('td:nth-child(3)').text().toLowerCase();
+                  var productId = currentRow.find('td:nth-child(1)').text().toLowerCase();
+                  if (productName.includes(searchText) || productId.includes(searchText)) {
+                      currentRow.show();
+                  } else {
+                      currentRow.hide();
+                  }
+              });
+          });
+      });
+  </script>
+</body>
+{% endblock %}
