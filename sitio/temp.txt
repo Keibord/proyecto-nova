@@ -1,0 +1,14 @@
+<!-- Eliminar carro despues de checkout
+Arreglar boton eliminar del carro
+Alerta si carrito quedo en sesion
+Nueva pagina de productos solo para venta
+        productos en tarjeta no en filas excel
+Historial de ventas quien que como y cuanto
+historial de compras cliente?
+historia de ventas en el tiempo?
+historial de ventas por vendedor?
+        contador de ventas en la base de datos?
+Usuario cliente que puede comprar y realizar acciones
+Guardar datos cliente al comprar?
+Guardar datos cliente al vender?
+Control de precios segun compra para posibles ofertas o descuentos o segun cliente(opcional)-->
