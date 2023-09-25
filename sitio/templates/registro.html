@@ -1,0 +1,103 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    
+    <!--JQUERY-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <!-- FRAMEWORK BOOTSTRAP para el estilo de la pagina-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    
+    <!-- Los iconos tipo Solid de Fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+    <!-- Nuestro css-->
+    <link rel="stylesheet" type="text/css" href="/static/css/login.css" th:href="@{/css/index.css}">
+
+    <!-- Ocultar admin si no se selecciono -->
+    <script>
+        $(document).ready(function() {
+            $('.select').change(function() {
+                if ($(this).val() == '1') { // Si el tipo de usuario es Administrador
+                    $('#adminCode').show(); // Muestra el campo de código de administrador
+                } else {
+                    $('#adminCode').hide(); // Oculta el campo de código de administrador
+                }
+            });
+        });
+        </script>
+        
+
+</head>
+<body>
+    
+    <section class="h-100 h-custom" >
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-8 col-xl-6">
+              <div class="card rounded-3">                
+                <div class="card-body p-4 p-md-5">
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Registro de usuario</h3>
+      
+                  <form class="px-md-2" action="{{ url_for('register_user') }}" method="post">      
+                    <div class="form-outline mb-4">
+                        <input type="text" id="form3Example1q" class="form-control" name="username" />
+                        <label class="form-label" for="form3Example1q">Nombre de usuario</label>
+                    </div>      
+                    <div class="row">
+                      <div class="col-md-6 mb-4">      
+                          <div class="form-outline mb-4">
+                              <input type="text" id="form3Example1q" class="form-control" name="password" />
+                              <label class="form-label" for="form3Example1q">Contraseña</label>
+                          </div>
+                      </div>
+                      <div class="col-md-6 mb-4"> 
+                          <select class="select form-control" name="user_type" id="user_type">
+                              <option value="1">Administrador</option>
+                              <option value="2" selected>Empleado</option>
+                              <option value="3">Cliente</option>
+                          </select>
+                          <label for="user_type">Tipo de usuario</label>     
+                      </div>
+                  </div> 
+                      
+                    <div class="row mb-4 pb-2 pb-md-0 mb-md-5" id="adminCode" style="display: none;">
+                        <div class="col-md-6">
+                          <div class="form-outline">
+                            <input type="text" id="form3Example1w" class="form-control" />
+                            <label class="form-label" for="form3Example1w">Codigo administrador</label>
+                          </div>
+                        </div>
+                      </div>  
+                    <button type="submit" class="btn btn-success btn-lg mb-1">Registrarse</button>
+      
+                  </form>
+      
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <h1 class="flash-messages">
+                {% for message in messages %}
+                <script>
+                    alert("¡{{ message }}!");
+                </script>
+                {% endfor %}
+            </h1>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
+
+{% endblock %}
