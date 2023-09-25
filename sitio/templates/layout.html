@@ -37,6 +37,7 @@
                 <a class="nav-item nav-link" href="{{ url_for('productos') }}">Productos</a>
                 {% if current_user.is_authenticated and current_user.user_type != 3 %}
                     <a class="nav-item nav-link" href="{{ url_for('proveedores') }}">Proveedores</a>
+                    <a class="nav-item nav-link" href="{{ url_for('usuarios') }}">Usuarios</a>
                 {% endif %}
 
                 <a class="nav-item nav-link" href="{{ url_for('ventas') }}">Carrito</a>

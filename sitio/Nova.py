@@ -398,6 +398,14 @@ def eliminar_del_carro(Codigo):
     cursor.close()
     return redirect(url_for('ventas'))
 
+@app.route('/usuarios')
+def usuarios():
+    if current_user.is_authenticated:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM usuario")
+        usuarios = cursor.fetchall()
+        cursor.close()
+        return render_template('usuarios.html', usuarios=usuarios)
 
 if __name__ == '__main__':
     app.secret_key = 'secret_key'
