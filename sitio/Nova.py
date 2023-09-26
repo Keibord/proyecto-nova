@@ -406,6 +406,81 @@ def usuarios():
         usuarios = cursor.fetchall()
         cursor.close()
         return render_template('usuarios.html', usuarios=usuarios)
+    
+@app.route('/editar_usuario/<string:username>', methods=['GET', 'POST'])
+def editar_usuario(username):
+    if current_user.is_authenticated:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM usuario WHERE User = %s", [username])
+        usuario = cursor.fetchone()
+        cursor.close()
+
+        if usuario is None:
+            flash('El usuario no existe', 'danger')
+            return redirect(url_for('usuarios'))
+
+        if request.method == 'POST':
+            nuevo_username = request.form['username'] if request.form['username'] else usuario[0]
+            password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8') if request.form['password'] else usuario[1]
+            password_confirm = bcrypt.generate_password_hash(request.form['password_confirm']).decode('utf-8') if request.form['password_confirm'] else usuario[1]
+            tipo_user = request.form['user_type']
+
+            if password != password_confirm:
+                flash('Las contraseñas no coinciden', 'danger')
+                return redirect(url_for('editar_usuario', username=username))
+
+            cursor = mysql.connection.cursor()
+            cursor.execute("UPDATE usuario SET User = %s, Password = %s, TipoUser = %s WHERE User = %s", (nuevo_username, password, tipo_user, username))
+            mysql.connection.commit()
+            cursor.close()
+
+            flash('Usuario actualizado correctamente', 'success')
+            return redirect(url_for('usuarios'))
+        else:
+            return render_template('editar_usuario.html', usuario=usuario)
+    else:
+        flash('Por favor inicie sesión para ver esta página')
+        return redirect(url_for('login_page'))
+
+    
+    
+@app.route('/eliminar_usuario/<string:username>', methods=['POST'])
+def eliminar_usuario(username):
+    if current_user.is_authenticated:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM usuario WHERE User = %s", [username])
+        usuario = cursor.fetchone()
+
+        if usuario is None:
+            flash('El usuario no existe', 'danger')
+        else:
+            cursor.execute("DELETE FROM usuario WHERE User = %s", [username])
+            mysql.connection.commit()
+            flash('Usuario eliminado correctamente', 'success')
+
+        cursor.close()
+        return redirect(url_for('usuarios'))
+    else:
+        flash('Por favor inicie sesión para ver esta página')
+        return redirect(url_for('login_page'))
+
+
+@app.route('/mostrar_usuario/<string:username>', methods=['GET'])
+def mostrar_usuario(username):
+    if current_user.is_authenticated:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM usuario WHERE User = %s", [username])
+        usuario = cursor.fetchone()
+        cursor.close()
+
+        if usuario is None:
+            flash('El usuario no existe', 'danger')
+            return redirect(url_for('usuarios'))
+        else:
+            return render_template('mostrar_usuario.html', usuario=usuario)
+    else:
+        flash('Por favor inicie sesión para ver esta página')
+        return redirect(url_for('login_page'))
 
 if __name__ == '__main__':
     app.secret_key = 'secret_key'

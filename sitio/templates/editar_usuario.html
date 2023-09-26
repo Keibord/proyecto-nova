@@ -1,0 +1,82 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    
+    <!--JQUERY-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <!-- FRAMEWORK BOOTSTRAP para el estilo de la pagina-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    
+    <!-- Los iconos tipo Solid de Fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+    <!-- Nuestro css-->
+    <link rel="stylesheet" type="text/css" href="/static/css/login.css" th:href="@{/css/index.css}">
+
+</head>
+<body>    
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">            
+            <div class="col col-lg-6 mb-4 mb-lg-0">
+              <div class="card mb-3" style="border-radius: .5rem;">
+                <div class="row g-0">
+                    <div class="card-body p-4">
+                        <h4>Editar usuario</h4>
+                        <hr class="mt-0 mb-4">                        
+                        <form action="{{ url_for('editar_usuario', username=usuario[0]) }}" method="post">
+                            <div class="row pt-1">
+                                <div class="col-6 mb-3">
+                                    <h6>Nombre</h6>
+                                    <input type="text" class="form-control" placeholder="Nombre de usuario" name="username" value="{{ usuario[0] }}"/>
+                                </div>
+                            </div>
+                            <div class="row pt-1">
+                                <div class="col-6 mb-3">
+                                    <h6>Contraseña</h6>
+                                    <input type="password" class="form-control" placeholder="Contraseña" name="password"/>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6>Confirmar contraseña</h6>
+                                    <input type="password" class="form-control" placeholder="Confirmar contraseña" name="password_confirm"/>
+                                </div>
+                            </div>
+                            <h6>Tipo de usuario</h6>
+                            <div> 
+                                <select class="select form-control" name="user_type" id="user_type">
+                                    <option value="1" {% if usuario[2] == 1 %}selected{% endif %}>Administrador</option>
+                                    <option value="2" {% if usuario[2] == 2 %}selected{% endif %}>Empleado</option>
+                                    <option value="3" {% if usuario[2] == 3 %}selected{% endif %}>Cliente</option>
+                                </select>
+                            </div>                            
+                            <hr>
+                            <button type="submit" class="btn btn-outline-primary" onclick="return confirm('¿Está seguro de que desea editar este usuario?')">Editar</button>
+                        </form>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+    </div>     
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <h1 class="flash-messages">
+                {% for message in messages %}
+                <script>
+                    alert("¡{{ message }}!");
+                </script>
+                {% endfor %}
+            </h1>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
+
+{% endblock %}

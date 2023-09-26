@@ -1,0 +1,68 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    
+    <!--JQUERY-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <!-- FRAMEWORK BOOTSTRAP para el estilo de la pagina-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    
+    <!-- Los iconos tipo Solid de Fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+    <!-- Nuestro css-->
+    <link rel="stylesheet" type="text/css" href="/static/css/login.css" th:href="@{/css/index.css}">
+
+</head>
+<body>    
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">            
+            <div class="col col-lg-6 mb-4 mb-lg-0">
+                <div class="card mb-3" style="border-radius: .5rem;">
+                    <div class="row g-0">
+                        <div class="card-body p-4">
+                            <h4>{{ usuario[0] }}</h4>
+                            <hr class="mt-0 mb-4">
+                            <h5>Tipo de usuario</h5>
+                            <div> 
+                                <span class="user-subhead">
+                                    {% if usuario[2] == 1 %}
+                                        Administrador
+                                    {% elif usuario[2] == 2 %}
+                                        Empleado
+                                    {% elif usuario[2] == 3 %}
+                                        Cliente
+                                    {% else %}
+                                        Desconocido
+                                    {% endif %}
+                                  </span>
+                            </div>    <!-- Agregar cosas como historial de compras aca-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>     
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <h1 class="flash-messages">
+                {% for message in messages %}
+                <script>
+                    alert("¡{{ message }}!");
+                </script>
+                {% endfor %}
+            </h1>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
+
+{% endblock %}

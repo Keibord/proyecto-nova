@@ -62,7 +62,6 @@
                                     <tr>
                                     <th><span>USUARIO</span></th>
                                     <th><span>CREADO EL </span></th>
-                                    <th class="text-center"><span>TIPO</span></th>
                                     <th><span>EMAIL</span></th>
                                     <th>&nbsp;</th>
                                     </tr>
@@ -71,7 +70,7 @@
                                     {% for usuario in usuarios %}
                                     <tr>
                                         <td>
-                                            <a href="#" class="user-link">{{ usuario[0] }}</a> <!-- Linkear nombrea historial de ventes y/o compras? -->
+                                            <a href="#" class="user-link">{{ usuario[0] }}</a> <!-- Linkear nombre a historial de ventas y/o compras? -->
                                             <span class="user-subhead">
                                                 {% if usuario[2] == 1 %}
                                                     Administrador
@@ -86,27 +85,26 @@
                                         </td>
                                         <td>2013/08/12</td>
                                         <td>
-                                            <a href="#">marlon@brando.com</a>  <!-- Cambiar por codigo de email o cuit segun se convenga -->
+                                            <a href="#">email@falso.com</a>  <!-- Cambiar por codigo de email o cuit segun se convenga -->
                                         </td>
                                         <td style="width: 20%;">
-                                            <a href="#" class="table-link text-warning">
+                                            <a href="{{ url_for('mostrar_usuario', username=usuario[0]) }}" class="table-link text-warning"> <!-- Ver -->
                                                 <span class="fa-stack">
                                                     <i class="fa fa-square fa-stack-2x"></i>
                                                     <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
                                                 </span>
                                             </a>
-                                            <a href="#" class="table-link text-info">
+                                            <a href="{{ url_for('editar_usuario', username=usuario[0]) }}" class="table-link text-info"> <!-- Editar -->
                                                 <span class="fa-stack">
                                                     <i class="fa fa-square fa-stack-2x"></i>
                                                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                                                 </span>
                                             </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                            <form action="{{ url_for('eliminar_usuario', username=usuario[0]) }}" method="post"> <!-- Destruir -->
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Está seguro de que desea eliminiar este usuario?')">
                                                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
+                                                </button>
+                                            </form>                                            
                                         </td>
                                     </tr>
                                     {% endfor %}
