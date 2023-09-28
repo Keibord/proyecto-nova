@@ -377,26 +377,29 @@ def agregar_al_carro(Codigo):
 def eliminar_del_carro(Codigo):
     cursor = mysql.connection.cursor()
     
-    # Obtener la cantidad de productos a devolver al stock
-    Cantidad = int(request.form.get('Cantidad'))
-
-    # Actualizar la cantidad de productos disponibles en la base de datos
-    cursor.execute('UPDATE productos SET Cantidad = Cantidad + %s WHERE Codigo = %s', (Cantidad, Codigo))
-    mysql.connection.commit()
+    Cantidad_a_mantener = int(request.form.get('Cantidad'))
 
     # Actualizar la cantidad de productos en el carrito
     for item in session['carro']:
         if item['Codigo'] == Codigo:
-            item['Cantidad'] -= Cantidad
-            if item['Cantidad'] <= 0:
-                # Eliminar el producto del carrito si su cantidad es cero o negativa
-                session['carro'].remove(item)
+            Cantidad_a_eliminar = item['Cantidad'] - Cantidad_a_mantener
+            if Cantidad_a_eliminar > 0:
+                # Actualizar productos en la base de datos
+                cursor.execute('UPDATE productos SET Cantidad = Cantidad + %s WHERE Codigo = %s', (Cantidad_a_eliminar, Codigo))
+                mysql.connection.commit()
+
+                # Actualizar la cantidad de productos en el carrito
+                item['Cantidad'] -= Cantidad_a_eliminar
+                if item['Cantidad'] <= 0:
+                    session['carro'].remove(item)
             break
 
     # Guarda los cambios en la sesion
     session.modified = True
     cursor.close()
     return redirect(url_for('ventas'))
+
+
 
 @app.route('/usuarios')
 def usuarios():

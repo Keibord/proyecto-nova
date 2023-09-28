@@ -37,21 +37,22 @@
                                 </div>
                             </div>
                             </td>
-                                <td data-th="Precio">${{producto['Precio']}}</td>
-                                <!-- Codigo para mostrar la cantidad -->
+                            <td data-th="Precio">${{producto['Precio'] * producto['Cantidad']}}</td>
+                            <!-- Codigo para mostrar la cantidad -->
                                 <!-- Buscar como hacer para que al cambiar el numero se baje o suba la cantidad teniendo en cuenta la disponibilidad-->
                                 <!-- Boton de refrescar???  -->
                                  
                                 <td data-th="Cantidad">
                                     <form method="POST" action="{{ url_for('eliminar_del_carro', Codigo=producto['Codigo']) }}">
-                                        <input type="number" name="Cantidad" class="form-control form-control-lg text-center" value="{{producto['Cantidad']}}" max="{{producto['Cantidad']}}">
+                                        <input type="number" name="Cantidad" class="form-control form-control-lg text-center" value="{{producto['Cantidad']}}" min="1" max="{{producto['Cantidad']}}">
                                 </td>
                                 <td class="acciones" data-th="">
                                     <div class="text-right text-nowrap">
                                         <button type="submit" class="btn btn-danger">Eliminar del carro</button>
                                     </div>
-                                    </form>                                    
+                                    </form>
                                 </td>
+                                
                                 
                       </tr>
                       {% endfor %}
